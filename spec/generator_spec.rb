@@ -13,4 +13,10 @@ describe WPRGenerator do
     content = WPRTemplate::render('cpt', params)
     clipboard_contents.should eq(content)
   end
+
+  it "should generate Lorem Ipsum" do
+    WPRGenerator.new.gen('lorem', [2, 'words'])
+    clipboard_contents = WPRUtilities::get_from_clipboard
+    clipboard_contents.downcase.should eq('lorem ipsum')
+  end
 end
