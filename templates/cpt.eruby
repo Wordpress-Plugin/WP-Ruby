@@ -1,0 +1,40 @@
+// =================================================
+//
+//  <%= plural.upcase %> CPT
+//
+// =================================================
+add_action('init', 'register_<%= plural.downcase %>_cpt');
+function register_<%= plural.downcase %>_cpt() {
+  $labels = array(
+    'name' => _x('<%= plural.capitalize %>', 'post type general name'),
+    'singular_name' => _x('<%= name.capitalize %>', 'post type singular name'),
+    'add_new' => _x('Add New', 'slide'),
+    'add_new_item' => __('Add New <%= name.capitalize %>'),
+    'edit_item' => __('Edit <%= name.capitalize %>'),
+    'new_item' => __('New <%= name.capitalize %>'),
+    'view_item' => __('View <%= name.capitalize %>'),
+    'search_items' => __('Search <%= plural.capitalize %>'),
+    'not_found' =>  __('No <%= plural.downcase %> found'),
+    'not_found_in_trash' => __('No <%= plural.downcase %> found in Trash'), 
+    'parent_item_colon' => '',
+    'menu_name' => '<%= plural.capitalize %>'
+  );
+
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true, 
+    'show_in_menu' => true, 
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => false, 
+    'hierarchical' => false,
+    'menu_position' => 20,
+    'supports' => array('title','editor','page-attributes'),
+    'register_meta_box_cb' => 'js_add_meta',
+  );
+
+  register_post_type('<%= name.downcase %>', $args);
+}

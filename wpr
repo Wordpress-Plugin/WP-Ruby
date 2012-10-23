@@ -1,0 +1,4 @@
+#!/bin/bash
+FILE=`readlink $0`
+ABSPATH=`dirname $FILE`
+exec ruby $ABSPATH/wp-ruby.rb "$@"
