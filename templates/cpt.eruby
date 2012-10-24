@@ -33,8 +33,33 @@ function register_<%= plural.downcase %>_cpt() {
     'hierarchical' => false,
     'menu_position' => 20,
     'supports' => array('title','editor','page-attributes'),
-    'register_meta_box_cb' => 'js_add_meta',
+    'register_meta_box_cb' => '<%= name.downcase %>_add_meta',
   );
 
   register_post_type('<%= name.downcase %>', $args);
+}
+
+function <%= name.downcase %>_add_meta() {
+    add_meta_box('<%= name.downcase %>-details', '<%= name.capitalize %> Details', '<%= name.downcase %>_details_meta', '<%= name.downcase %>', 'normal', 'high');
+}
+
+function <%= name.downcase %>_details_meta($post) {
+    ?>
+    <table class="form-table">
+        <tr>
+            <th>URL</th>
+            <td><input type="text" class="widefat" name="url" value="<?php echo get_post_meta($post->ID, 'url', TRUE); ?>" /></td>
+        </tr>
+    </table>
+    <?php
+}
+
+add_action('save_post', 'save_<%= name.downcase %>_meta');
+function save_<%= name.downcase %>_meta($post_id) {
+    if ( wp_is_post_revision( $post_id ) ) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (get_post_type() == '<%= name.downcase %>') {
+        update_post_meta($post_id, 'url', $_POST['url']);
+    }
 }
